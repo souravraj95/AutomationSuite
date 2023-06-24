@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,7 @@ public class TestUtility {
 	public static Properties properties = null;
 	public static String filePath = new File("").getAbsolutePath();
 	public MainAPI wrapperObject = null;
+	public static Map<String, TestData> testDataMap = null;
 	
 	/*Constructor of the class here different wrappers instance is made*/
 	public TestUtility() {
@@ -61,6 +63,7 @@ public class TestUtility {
 		excelPath = TestUtility.filePath + excelPath;
 		String sheetName = arr[1].trim();
 		String testCase = arr[2].trim();
+		wrapperObject.setExcelPath(excelPath);
 		wrapperObject.setWorkSheetName(sheetName);
 		wrapperObject.setTestCasename(testCase);
 	}

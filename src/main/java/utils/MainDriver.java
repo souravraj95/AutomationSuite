@@ -1,5 +1,7 @@
 package utils;
 
+import java.io.IOException;
+
 import api.MainAPI;
 import io.cucumber.java.Scenario;
 import scenarioClasses.API;
@@ -17,7 +19,7 @@ public class MainDriver {
 	}
 
 	/* run() to take care of all features */
-	public void run(String featureValue, Scenario scenario) {
+	public void run(String featureValue, Scenario scenario) throws IOException {
 		if (featureValue.startsWith("API")) {
 			new API().apiRun(featureValue, scenario);
 		}
