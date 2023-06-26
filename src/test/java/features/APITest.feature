@@ -22,5 +22,5 @@ Feature: Testing Feature
 
   @tag1
   Scenario: API Test Scenario
-    Given "API{/resources/APITestCases.xlsx,APITest,JWT}"
+    Given "API{/resources/Book.xlsx,APITest,List_Users}"
 

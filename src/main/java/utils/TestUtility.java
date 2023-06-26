@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import api.MainAPI;
+import io.restassured.response.Response;
 
 public class TestUtility {
 
@@ -21,8 +22,14 @@ public class TestUtility {
 	public static String filePath = new File("").getAbsolutePath();
 	public MainAPI wrapperObject = null;
 	public static Map<String, TestData> testDataMap = null;
-	
-	/*Constructor of the class here different wrappers instance is made*/
+	public static ThreadLocal<Response> response = new ThreadLocal<Response>() {
+		@Override
+		protected Response initialValue() {
+			return null;
+		}
+	};
+
+	/* Constructor of the class here different wrappers instance is made */
 	public TestUtility() {
 		wrapperObject = MainAPI.getInstance();
 	}
@@ -52,8 +59,8 @@ public class TestUtility {
 		}
 		return null;
 	}
-	
-	/*Method to set Work sheet name and test case name*/
+
+	/* Method to set Work sheet name and test case name */
 	public void setWorkSheetTC(String featureValue) {
 		int startIndex = featureValue.indexOf("{");
 		int endIndex = featureValue.indexOf("}");
@@ -66,5 +73,24 @@ public class TestUtility {
 		wrapperObject.setExcelPath(excelPath);
 		wrapperObject.setWorkSheetName(sheetName);
 		wrapperObject.setTestCasename(testCase);
+	}
+
+	/* Method to find and replace values */
+	public static String findAndReplace(String value) {
+		int start, end = 0;
+		try {
+			if (value.substring(end).contains("TextMap[")) {
+				start = value.indexOf("TextMap[", end);
+				end = value.indexOf("]", start);
+				String subString = value.substring(start, end);
+				String attribute = "TextMap[" + subString + "]";
+				value = value.replace(attribute, subString);
+				value = findAndReplace(value);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 }

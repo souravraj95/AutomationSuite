@@ -127,6 +127,27 @@ public class ExcelDataReader {
 						}
 					}
 				}
+				/*Without header and cookies*/
+				else {
+					Cell cell = row.getCell(testCaseNameColIndex);
+					if (cell != null) {
+						String testCaseName = dataFormatter.formatCellValue(cell);
+						if (!testCaseName.isEmpty()) {
+							// Create a TestData object for the current row
+							TestData testData = new TestData();
+							testData.setTestCaseName(testCaseName);
+							testData.setUrl(dataFormatter.formatCellValue(row.getCell(urlColIndex)));
+							testData.setRequestType(dataFormatter.formatCellValue(row.getCell(requestTypeColIndex)));
+							testData.setContentType(dataFormatter.formatCellValue(row.getCell(contentTypeColIndex)));
+							testData.setPayload(dataFormatter.formatCellValue(row.getCell(payloadColIndex)));
+							testData.setAuthType(dataFormatter.formatCellValue(row.getCell(authTypeColIndex)));
+							testData.setAuthDetails(dataFormatter.formatCellValue(row.getCell(authDetailsColIndex)));
+							testData.setCookie(dataFormatter.formatCellValue(row.getCell(cookieColIndex)));
+							testData.setSqlQuery(dataFormatter.formatCellValue(row.getCell(sqlQueryColIndex)));
+							testDataMap.put(testCaseName.toLowerCase(), testData);
+						}
+					}
+				}
 			}
 
 		} catch (Exception e) {
